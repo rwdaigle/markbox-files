@@ -10,21 +10,21 @@ defmodule MarkboxFile.Dropbox.File do
   ## Examples
 
       iex> user_access_token = Application.get_env(:dropbox, :access_token)
-      iex> %{status: status, headers: headers, body: body} = MarkboxFile.Dropbox.File.contents("/ryandaigle.com/index.html", user_access_token)
+      iex> %{status: status, headers: headers, body: body} = MarkboxFile.Dropbox.File.get("/ryandaigle.com/index.html", user_access_token)
       iex> status
       200
       iex> Dict.fetch!(headers, :"Content-Type")
       "text/html; charset=utf-8"
       iex> body
-      "Live from Dropbox!\\n"
+      "<h4>Live from Dropbox!</h4>\\n"
 
   Error conditions:
 
-      iex> %{status: status} = MarkboxFile.Dropbox.File.contents("/ryandaigle.com/index.html", "invalid")
+      iex> %{status: status} = MarkboxFile.Dropbox.File.get("/ryandaigle.com/index.html", "invalid")
       iex> status
       401
   """
-  def contents(path, access_token) do
+  def get(path, access_token) do
     file_url(path)
     |> HTTPotion.get([headers: headers(access_token)])
     |> parse_response
