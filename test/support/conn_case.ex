@@ -22,8 +22,8 @@ defmodule MarkboxFiles.ConnCase do
 
       # Alias the data repository and import query/model functions
       alias MarkboxFiles.Repo
-      import Ecto.Model
-      import Ecto.Query, only: [from: 2]
+      # import Ecto.Model
+      # import Ecto.Query, only: [from: 2]
 
       # Import URL helpers from the router
       import MarkboxFiles.Router.Helpers
@@ -35,7 +35,7 @@ defmodule MarkboxFiles.ConnCase do
 
   setup tags do
     unless tags[:async] do
-      Ecto.Adapters.SQL.restart_test_transaction(MarkboxFiles.Repo, [])
+      # Ecto.Adapters.SQL.restart_test_transaction(MarkboxFiles.Repo, [])
     end
 
     :ok

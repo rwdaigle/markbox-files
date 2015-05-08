@@ -10,12 +10,12 @@ config :markbox_files, MarkboxFiles.Endpoint,
 config :logger, level: :warn
 
 # Configure your database
-config :markbox_files, MarkboxFiles.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "markbox_files_test",
-  size: 1,
-  max_overflow: 0
+# config :markbox_files, MarkboxFiles.Repo,
+#   adapter: Ecto.Adapters.Postgres,
+#   username: "postgres",
+#   password: "postgres",
+#   database: "markbox_files_test",
+#   size: 1,
+#   max_overflow: 0
 
 import_config "test.secret.exs"

@@ -27,10 +27,10 @@ config :markbox_files, MarkboxFiles.Endpoint,
 config :logger, :console, format: "[$level] $message\n"
 
 # Configure your database
-config :markbox_files, MarkboxFiles.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "markbox_files_dev"
+# config :markbox_files, MarkboxFiles.Repo,
+#   adapter: Ecto.Adapters.Postgres,
+#   username: "postgres",
+#   password: "postgres",
+#   database: "markbox_files_dev"
 
 import_config "dev.secret.exs"

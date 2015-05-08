@@ -10,22 +10,29 @@ defmodule MarkboxFile.Dropbox.File do
   ## Examples
 
       iex> user_access_token = Application.get_env(:dropbox, :access_token)
-      iex> MarkboxFile.Dropbox.File.contents("/ryandaigle.com/index.html", user_access_token)
-      {:ok, "Live from Dropbox!"}
+      iex> %{status: status, headers: headers, body: body} = MarkboxFile.Dropbox.File.contents("/ryandaigle.com/index.html", user_access_token)
+      iex> status
+      200
+      iex> Dict.fetch!(headers, :"Content-Type")
+      "text/html; charset=utf-8"
+      iex> body
+      "Live from Dropbox!\\n"
 
   Error conditions:
 
-      iex> MarkboxFile.Dropbox.File.contents("/ryandaigle.com/index.html", "invalid")
-      {:error, 401, :body, "{\"error\": \"Invalid OAuth2 token.\"}"}
+      iex> %{status: status} = MarkboxFile.Dropbox.File.contents("/ryandaigle.com/index.html", "invalid")
+      iex> status
+      401
   """
   def contents(path, access_token) do
     file_url(path)
     |> HTTPotion.get([headers: headers(access_token)])
-    |> handle_response
+    |> parse_response
   end
 
-  defp handle_response(%Response{status_code: 200, body: body}), do: {:ok, body}
-  defp handle_response(%Response{status_code: status, body: body}), do: {:error, status, :body, body}
+  defp parse_response(%Response{status_code: status, body: body, headers: headers}) do
+    %{status: status, headers: headers, body: body}
+  end
 
   defp file_url(path), do: @dropbox_file_base <> path
 

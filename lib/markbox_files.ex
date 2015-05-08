@@ -10,7 +10,7 @@ defmodule MarkboxFiles do
       # Start the endpoint when the application starts
       supervisor(MarkboxFiles.Endpoint, []),
       # Start the Ecto repository
-      worker(MarkboxFiles.Repo, []),
+      # worker(MarkboxFiles.Repo, []),
       # Here you could define other workers and supervisors as children
       # worker(MarkboxFiles.Worker, [arg1, arg2, arg3]),
     ]

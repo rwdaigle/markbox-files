@@ -18,7 +18,7 @@ defmodule MarkboxFiles.Web do
 
   def model do
     quote do
-      use Ecto.Model
+      # use Ecto.Model
     end
   end
 
@@ -28,8 +28,8 @@ defmodule MarkboxFiles.Web do
 
       # Alias the data repository and import query/model functions
       alias MarkboxFiles.Repo
-      import Ecto.Model
-      import Ecto.Query, only: [from: 2]
+      # import Ecto.Model
+      # import Ecto.Query, only: [from: 2]
 
       # Import URL helpers from the router
       import MarkboxFiles.Router.Helpers
@@ -63,8 +63,8 @@ defmodule MarkboxFiles.Web do
 
       # Alias the data repository and import query/model functions
       alias MarkboxFiles.Repo
-      import Ecto.Model
-      import Ecto.Query, only: [from: 2]
+      # import Ecto.Model
+      # import Ecto.Query, only: [from: 2]
 
     end
   end
