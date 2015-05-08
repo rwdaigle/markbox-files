@@ -17,3 +17,5 @@ config :markbox_files, MarkboxFiles.Repo,
   database: "markbox_files_test",
   size: 1,
   max_overflow: 0
+
+import_config "test.secret.exs"

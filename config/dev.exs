@@ -32,3 +32,5 @@ config :markbox_files, MarkboxFiles.Repo,
   username: "postgres",
   password: "postgres",
   database: "markbox_files_dev"
+
+import_config "dev.secret.exs"

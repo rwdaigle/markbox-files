@@ -18,7 +18,7 @@ defmodule MarkboxFiles.Mixfile do
   def application do
     [mod: {MarkboxFiles, []},
      applications: [:phoenix, :cowboy, :logger,
-                    :phoenix_ecto, :postgrex]]
+                    :phoenix_ecto, :postgrex, :httpotion]]
   end
 
   # Specifies which paths to compile per environment
@@ -29,10 +29,17 @@ defmodule MarkboxFiles.Mixfile do
   #
   # Type `mix help deps` for examples and options
   defp deps do
-    [{:phoenix, "~> 0.12"},
-     {:phoenix_ecto, "~> 0.3"},
-     {:postgrex, ">= 0.0.0"},
-     {:phoenix_live_reload, "~> 0.3"},
-     {:cowboy, "~> 1.0"}]
+    [
+      {:phoenix, "~> 0.12"},
+      {:phoenix_ecto, "~> 0.3"},
+      {:postgrex, ">= 0.0.0"},
+      {:phoenix_live_reload, "~> 0.3"},
+      {:cowboy, "~> 1.0"},
+      {:ibrowse, github: "cmullaparthi/ibrowse", tag: "v4.1.1"},
+      {:httpotion, "~> 2.0.0"},
+      {:poison, "~> 1.4.0"},
+      {:mock, "~> 0.1.0"},
+      {:ex_doc, github: "elixir-lang/ex_doc"},
+      {:markdown, github: "devinus/markdown"}]
   end
 end

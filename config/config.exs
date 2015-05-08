@@ -19,6 +19,9 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+config :dropbox, file_host: System.get_env("DROPBOX_FILE_HOST") || "https://api-content.dropbox.com"
+config :dropbox, file_base: System.get_env("DROPBOX_FILE_BASE") || "/1/files/auto"
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
