@@ -5,11 +5,13 @@ defmodule MarkboxFiles.FileController do
   plug :action
 
   def show(conn, params) do
+    file = conn
+      |> get_dropbox_file_path
+      |> Dropbox.get(dropbox_user_access_token(conn, params))
+
     conn
-    |> get_dropbox_file_path
-    |> Dropbox.get(dropbox_user_access_token(conn, params))
-    |> set_headers(conn)
-    |> send_response(conn)
+    |> set_headers(file)
+    |> send_file(file)
   end
 
   defp get_dropbox_file_path(conn) do
@@ -17,15 +19,19 @@ defmodule MarkboxFiles.FileController do
     "/ryandaigle.com#{full_path(conn)}"
   end
 
-  defp set_headers(file, conn) do
-    content_type = file
-      |> Dict.fetch!(:headers)
-      |> Keyword.get(:"Content-Type")
-    put_resp_content_type(conn, content_type)
-    file
+  defp set_headers(conn, %{headers: headers} = file) do
+    headers
+    |> Keyword.take(transferrable_headers)
+    |> Enum.reduce(conn, fn({h, v}, c) -> put_resp_header(c, to_string(h), v) end)
   end
 
-  defp send_response(%{body: body}, conn), do: text(conn, body)
+  defp transferrable_headers do
+    [:"Content-Type", :"Content-Length", :"Cache-Control", :etag]
+  end
+
+  defp send_file(conn, %{body: body, status: status}) do
+    send_resp(conn, status, body)
+  end
 
   defp dropbox_user_access_token(_conn, _params) do
     Application.get_env(:dropbox, :user_access_token)
