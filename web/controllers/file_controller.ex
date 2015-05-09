@@ -6,7 +6,7 @@ defmodule MarkboxFiles.FileController do
 
   def show(conn, params) do
     file = conn
-      |> get_dropbox_file_path
+      |> get_dropbox_file_path(params)
       |> Dropbox.get(dropbox_user_access_token(conn, params))
 
     conn
@@ -14,7 +14,8 @@ defmodule MarkboxFiles.FileController do
     |> send_file(file)
   end
 
-  defp get_dropbox_file_path(conn), do: "/#{conn.host}#{full_path(conn)}"
+  defp get_dropbox_file_path(conn, %{"domain" => domain}), do: "/#{domain}#{full_path(conn)}"
+  defp get_dropbox_file_path(conn, _params), do: "/#{conn.host}#{full_path(conn)}"
 
   defp set_headers(conn, %{headers: headers} = file) do
     headers
