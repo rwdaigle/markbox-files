@@ -31,6 +31,7 @@ defmodule MarkboxFile.Dropbox.File do
   end
 
   defp parse_response(%Response{status_code: status, body: body, headers: headers}) do
+    # IO.inspect(headers)
     %{status: status, headers: headers, body: body}
   end
 

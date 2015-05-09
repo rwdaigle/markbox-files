@@ -14,10 +14,7 @@ defmodule MarkboxFiles.FileController do
     |> send_file(file)
   end
 
-  defp get_dropbox_file_path(conn) do
-    # Add domain recognition
-    "/ryandaigle.com#{full_path(conn)}"
-  end
+  defp get_dropbox_file_path(conn), do: "/#{conn.host}#{full_path(conn)}"
 
   defp set_headers(conn, %{headers: headers} = file) do
     headers
