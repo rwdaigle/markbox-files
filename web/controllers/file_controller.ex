@@ -1,7 +1,7 @@
 defmodule MarkboxFiles.FileController do
   use MarkboxFiles.Web, :controller
-  alias MarkboxFile.Dropbox.File, as: Dropbox
-  alias MarkboxFile.Auth.Domain
+  alias MarkboxFiles.Dropbox.File, as: Dropbox
+  alias MarkboxFiles.Auth.Domain
 
   plug :action
 

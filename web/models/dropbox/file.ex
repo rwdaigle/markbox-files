@@ -1,4 +1,4 @@
-defmodule MarkboxFile.Dropbox.File do
+defmodule MarkboxFiles.Dropbox.File do
 
   alias HTTPotion.Response
 
@@ -10,7 +10,7 @@ defmodule MarkboxFile.Dropbox.File do
   ## Examples
 
       iex> user_access_token = Application.get_env(:dropbox, :access_token)
-      iex> %{status: status, headers: headers, body: body} = MarkboxFile.Dropbox.File.get("/ryandaigle.com/index.html", user_access_token)
+      iex> %{status: status, headers: headers, body: body} = MarkboxFiles.Dropbox.File.get("/ryandaigle.com/index.html", user_access_token)
       iex> status
       200
       iex> Dict.fetch!(headers, :"Content-Type")
@@ -20,7 +20,7 @@ defmodule MarkboxFile.Dropbox.File do
 
   Error conditions:
 
-      iex> %{status: status} = MarkboxFile.Dropbox.File.get("/ryandaigle.com/index.html", "invalid")
+      iex> %{status: status} = MarkboxFiles.Dropbox.File.get("/ryandaigle.com/index.html", "invalid")
       iex> status
       401
   """

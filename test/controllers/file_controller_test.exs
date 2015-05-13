@@ -3,7 +3,7 @@ defmodule MarkboxFiles.FileControllerTest do
   import Mock
   use MarkboxFiles.ConnCase
   use ExUnit.Case, async: false
-  alias MarkboxFile.Auth.Domain
+  alias MarkboxFiles.Auth.Domain
 
   @timeout 250
 

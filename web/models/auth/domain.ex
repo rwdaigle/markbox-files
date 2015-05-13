@@ -1,4 +1,4 @@
-defmodule MarkboxFile.Auth.Domain do
+defmodule MarkboxFiles.Auth.Domain do
 
   alias HTTPotion.Response
   alias Poison.Parser, as: JSON

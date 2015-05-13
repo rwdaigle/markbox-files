@@ -2,7 +2,7 @@ defmodule FileTest do
 
   import Mock
   use ExUnit.Case, async: false
-  alias MarkboxFile.Dropbox.File, as: Dropbox
+  alias MarkboxFiles.Dropbox.File, as: Dropbox
 
   @timeout 250
 
