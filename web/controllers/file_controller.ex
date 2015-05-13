@@ -1,6 +1,7 @@
 defmodule MarkboxFiles.FileController do
   use MarkboxFiles.Web, :controller
   alias MarkboxFile.Dropbox.File, as: Dropbox
+  alias MarkboxFile.Auth.Domain
 
   plug :action
 
@@ -31,7 +32,7 @@ defmodule MarkboxFiles.FileController do
     send_resp(conn, status, body)
   end
 
-  defp dropbox_user_access_token(_conn, _params) do
-    Application.get_env(:dropbox, :user_access_token)
+  defp dropbox_user_access_token(conn, _params) do
+    conn.host |> Domain.access_token
   end
 end

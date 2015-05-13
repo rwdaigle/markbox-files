@@ -22,6 +22,8 @@ config :logger, :console,
 config :dropbox, file_host: System.get_env("DROPBOX_FILE_HOST") || "https://api-content.dropbox.com"
 config :dropbox, file_base: System.get_env("DROPBOX_FILE_BASE") || "/1/files/auto"
 
+config :markbox_auth, host: System.get_env("MARKBOX_AUTH_HOST") || "http://127.0.0.1:5000/"
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
