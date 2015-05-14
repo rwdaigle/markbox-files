@@ -17,7 +17,7 @@ defmodule MarkboxFiles.FileController do
     |> send_file(file)
   end
 
-  defp get_dropbox_file_path(conn, params), do: "/#{domain(conn, params)}#{full_path(conn)}"
+  defp get_dropbox_file_path(conn, params), do: "/#{domain(conn, params)}#{path(conn)}"
 
   defp set_headers(conn, %{headers: headers}) do
     headers
@@ -42,6 +42,13 @@ defmodule MarkboxFiles.FileController do
     case conn.host do
       "localhost" -> "ryandaigle.com"
       host -> host
-    end    
+    end
+  end
+
+  defp path(conn) do
+    case full_path(conn) do
+      "/" -> "/index.html"
+      path -> path
+    end
   end
 end
