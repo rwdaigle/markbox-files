@@ -40,7 +40,7 @@ defmodule MarkboxFiles.FileController do
   defp domain(_conn, %{"domain" => domain}), do: domain
   defp domain(conn, _params) do
     case conn.host do
-      "localhost" -> "ryandaigle.com"
+      "localhost" -> Application.get_env(:default, :domain)
       host -> host
     end
   end
