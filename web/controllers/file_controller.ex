@@ -1,4 +1,5 @@
 defmodule MarkboxFiles.FileController do
+
   use MarkboxFiles.Web, :controller
   alias MarkboxFiles.Dropbox.File, as: Dropbox
   alias MarkboxFiles.Auth.Domain
@@ -6,7 +7,8 @@ defmodule MarkboxFiles.FileController do
   plug :action
 
   def show(conn, params) do
-    file = conn
+    file =
+      conn
       |> get_dropbox_file_path(params)
       |> Dropbox.get(dropbox_user_access_token(conn, params))
 
@@ -15,10 +17,9 @@ defmodule MarkboxFiles.FileController do
     |> send_file(file)
   end
 
-  defp get_dropbox_file_path(conn, %{"domain" => domain}), do: "/#{domain}#{full_path(conn)}"
-  defp get_dropbox_file_path(conn, _params), do: "/#{conn.host}#{full_path(conn)}"
+  defp get_dropbox_file_path(conn, params), do: "/#{domain(conn, params)}#{full_path(conn)}"
 
-  defp set_headers(conn, %{headers: headers} = file) do
+  defp set_headers(conn, %{headers: headers}) do
     headers
     |> Keyword.take(transferrable_headers)
     |> Enum.reduce(conn, fn({h, v}, c) -> put_resp_header(c, to_string(h), v) end)
@@ -32,7 +33,15 @@ defmodule MarkboxFiles.FileController do
     send_resp(conn, status, body)
   end
 
-  defp dropbox_user_access_token(conn, _params) do
-    conn.host |> Domain.access_token
+  defp dropbox_user_access_token(conn, params) do
+    Domain.access_token(domain(conn, params))
+  end
+
+  defp domain(_conn, %{"domain" => domain}), do: domain
+  defp domain(conn, _params) do
+    case conn.host do
+      "localhost" -> "ryandaigle.com"
+      host -> host
+    end    
   end
 end

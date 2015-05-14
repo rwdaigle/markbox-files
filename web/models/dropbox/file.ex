@@ -24,6 +24,7 @@ defmodule MarkboxFiles.Dropbox.File do
       iex> status
       401
   """
+  def get(path, nil), do: %{status: 500, headers: [], body: "Access token for this domain could not be retrieved"}
   def get(path, access_token) do
     file_url(path)
     |> HTTPotion.get([headers: headers(access_token)])
@@ -31,7 +32,6 @@ defmodule MarkboxFiles.Dropbox.File do
   end
 
   defp parse_response(%Response{status_code: status, body: body, headers: headers}) do
-    # IO.inspect(headers)
     %{status: status, headers: headers, body: body}
   end
 
