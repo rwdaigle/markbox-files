@@ -39,9 +39,10 @@ defmodule MarkboxFiles.FileController do
 
   defp domain(_conn, %{"domain" => domain}), do: domain
   defp domain(conn, _params) do
-    case conn.host do
-      "localhost" -> Application.get_env(:default, :domain)
-      host -> host
+    if Enum.member?(Application.get_env(:default, :inbound_domains), conn.host) do
+      Application.get_env(:default, :target_domain)
+    else
+      conn.host
     end
   end
 

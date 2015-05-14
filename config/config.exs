@@ -19,7 +19,8 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-config :default, domain: System.get_env("APP_DEFAULT_DOMAIN") || "ryandaigle.com"
+config :default, target_domain: System.get_env("APP_DEFAULT_DOMAIN") || "ryandaigle.com"
+config :default, inbound_domains: ["localhost", "markbox-files-staging.herokuapp.com", "markbox-files.herokuapp.com"]
 
 config :dropbox, file_host: System.get_env("DROPBOX_FILE_HOST") || "https://api-content.dropbox.com"
 config :dropbox, file_base: System.get_env("DROPBOX_FILE_BASE") || "/1/files/auto"
