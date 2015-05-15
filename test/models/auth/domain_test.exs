@@ -20,7 +20,7 @@ defmodule MarkboxFiles.Auth.DomainTest do
     end
   end
 
-  defp url, do: Application.get_env(:markbox_auth, :host) <> "api/v1/domains/ryandaigle.com/access_token.json"
+  defp url, do: "http://127.0.0.1:5000/api/v1/domains/ryandaigle.com/access_token.json"
 
   defp headers do
     [

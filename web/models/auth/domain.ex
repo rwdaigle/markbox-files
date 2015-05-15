@@ -4,7 +4,7 @@ defmodule MarkboxFiles.Auth.Domain do
   alias Poison.Parser, as: JSON
 
   def access_token(domain) do
-    url("api/v1/domains/#{domain}/access_token.json")
+    url("/api/v1/domains/#{domain}/access_token.json")
     |> HTTPotion.get([headers: headers])
     |> parse_response_body
     |> get_access_token

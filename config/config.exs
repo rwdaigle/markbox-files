@@ -28,7 +28,7 @@ config :default, inbound_domains: ["localhost", "markbox-files-staging.herokuapp
 config :dropbox, file_host: System.get_env("DROPBOX_FILE_HOST") || "https://api-content.dropbox.com"
 config :dropbox, file_base: System.get_env("DROPBOX_FILE_BASE") || "/1/files/auto"
 
-config :markbox_auth, host: System.get_env("MARKBOX_AUTH_HOST") || "http://127.0.0.1:5000/"
+config :markbox_auth, host: System.get_env("MARKBOX_AUTH_HOST") || "http://127.0.0.1:5000"
 config :markbox_auth, api_user: System.get_env("MARKBOX_AUTH_API_USER") || "test"
 config :markbox_auth, api_password: System.get_env("MARKBOX_AUTH_API_PASSWORD") || "test"
 
