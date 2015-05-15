@@ -19,6 +19,9 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+config :markbox_files, MarkboxFiles.Endpoint, secret_key_base: System.get_env("APP_SECRET") ||
+  "9vmQzrby45mWCSnGNXK/c8xPbP0Im64b9sb57cwyD6sP+SffuYN4thUwrzmIpn9/"
+
 config :default, target_domain: System.get_env("APP_DEFAULT_DOMAIN") || "ryandaigle.com"
 config :default, inbound_domains: ["localhost", "markbox-files-staging.herokuapp.com", "markbox-files.herokuapp.com"]
 

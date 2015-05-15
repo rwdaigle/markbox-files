@@ -32,5 +32,3 @@ config :logger, :console, format: "[$level] $message\n"
 #   username: "postgres",
 #   password: "postgres",
 #   database: "markbox_files_dev"
-
-import_config "dev.secret.exs"
