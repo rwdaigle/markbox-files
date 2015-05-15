@@ -16,8 +16,9 @@ config :markbox_files, MarkboxFiles.Endpoint,
 
 # Configures Elixir's Logger
 config :logger, :console,
-  format: "$time $metadata[$level] $message\n",
-  metadata: [:request_id]
+  format: "$message\n",
+  metadata: [:request_id],
+  level: :debug
 
 config :markbox_files, MarkboxFiles.Endpoint, secret_key_base: System.get_env("APP_SECRET") ||
   "9vmQzrby45mWCSnGNXK/c8xPbP0Im64b9sb57cwyD6sP+SffuYN4thUwrzmIpn9/"

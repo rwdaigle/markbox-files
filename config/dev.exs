@@ -23,9 +23,6 @@ config :markbox_files, MarkboxFiles.Endpoint,
     ]
   ]
 
-# Do not include metadata nor timestamps in development logs
-config :logger, :console, format: "[$level] $message\n"
-
 # Configure your database
 # config :markbox_files, MarkboxFiles.Repo,
 #   adapter: Ecto.Adapters.Postgres,
