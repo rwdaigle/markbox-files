@@ -38,8 +38,7 @@ defmodule MarkboxFiles.Mixfile do
       {:httpotion, "~> 2.0.0"},
       {:poison, "~> 1.4.0"},
       {:mock, "~> 0.1.0"},
-      {:ex_doc, github: "elixir-lang/ex_doc"},
-      {:timex, "~> 0.13.4"}
+      {:ex_doc, github: "elixir-lang/ex_doc"}
     ]
   end
 end

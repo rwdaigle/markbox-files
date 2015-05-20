@@ -6,7 +6,7 @@ defmodule FileTest do
 
   @timeout 250
 
-  doctest Dropbox
+  # doctest Dropbox
 
   test "GET file" do
     {:ok, body} = File.read("test/fixtures/file.html")

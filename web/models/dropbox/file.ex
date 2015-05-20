@@ -1,5 +1,6 @@
 defmodule MarkboxFiles.Dropbox.File do
 
+  alias MarkboxFiles.Scrolls
   alias HTTPotion.Response
 
   @dropbox_file_base Application.get_env(:dropbox, :file_host) <> Application.get_env(:dropbox, :file_base)
@@ -26,9 +27,11 @@ defmodule MarkboxFiles.Dropbox.File do
   """
   def get(path, nil), do: %{status: 500, headers: [], body: "Access token for this domain could not be retrieved"}
   def get(path, access_token) do
-    file_url(path)
-    |> HTTPotion.get([headers: headers(access_token)])
-    |> parse_response
+    Scrolls.log(%{event: "api.dropbox.request", url: file_url(path)}, fn(%{url: dropbox_url}) ->
+      dropbox_url
+      |> HTTPotion.get([headers: headers(access_token)])
+      |> parse_response
+    end)
   end
 
   defp parse_response(%Response{status_code: status, body: body, headers: headers}) do
