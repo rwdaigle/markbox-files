@@ -12,6 +12,8 @@ defmodule MarkboxFiles.FileController do
       |> get_dropbox_file_path(params)
       |> Dropbox.get(dropbox_user_access_token(conn, params))
 
+    IO.inspect file
+
     conn
     |> set_headers(file)
     |> send_file(file)
