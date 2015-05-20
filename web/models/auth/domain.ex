@@ -7,7 +7,7 @@ defmodule MarkboxFiles.Auth.Domain do
   def access_token(domain) do
     Scrolls.log(%{event: "api.auth.request", url: url("/api/v1/domains/#{domain}/access_token.json")}, fn(%{url: auth_url}) ->
       auth_url
-      |> HTTPotion.get([headers: headers])
+      |> HTTPotion.get([headers: headers, timeout: 20000])
       |> parse_response_body
       |> get_access_token
     end)
@@ -29,6 +29,8 @@ defmodule MarkboxFiles.Auth.Domain do
       "Authorization": "Basic #{basic_auth}"
     ]
   end
+
+  defp conn
 
   defp basic_auth do
     Base.encode64(Application.get_env(:markbox_auth, :api_user) <> ":" <> Application.get_env(:markbox_auth, :api_password))
