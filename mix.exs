@@ -17,8 +17,7 @@ defmodule MarkboxFiles.Mixfile do
   # Type `mix help compile.app` for more information
   def application do
     [mod: {MarkboxFiles, []},
-     applications: [:phoenix, :cowboy, :logger,
-                    :postgrex, :httpotion]]
+     applications: [:phoenix, :cowboy, :logger, :httpotion]]
   end
 
   # Specifies which paths to compile per environment
@@ -32,7 +31,7 @@ defmodule MarkboxFiles.Mixfile do
     [
       {:phoenix, "~> 0.12"},
       # {:phoenix_ecto, "~> 0.3"},
-      {:postgrex, ">= 0.0.0"},
+      # {:postgrex, ">= 0.0.0"},
       {:phoenix_live_reload, "~> 0.3"},
       {:cowboy, "~> 1.0"},
       {:ibrowse, github: "cmullaparthi/ibrowse", tag: "v4.1.1"},
@@ -40,6 +39,7 @@ defmodule MarkboxFiles.Mixfile do
       {:poison, "~> 1.4.0"},
       {:mock, "~> 0.1.0"},
       {:ex_doc, github: "elixir-lang/ex_doc"},
-      {:markdown, github: "devinus/markdown"}]
+      {:timex, "~> 0.13.4"}
+    ]
   end
 end

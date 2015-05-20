@@ -2,15 +2,16 @@ defmodule MarkboxFiles.Auth.Domain do
 
   alias HTTPotion.Response
   alias Poison.Parser, as: JSON
-  require Logger
+  alias MarkboxFiles.Scrolls
 
   def access_token(domain) do
     domain_url = url("/api/v1/domains/#{domain}/access_token.json")
-    Logger.info("event=api.auth.request url=\"#{domain_url}\"")
-    domain_url
-    |> HTTPotion.get([headers: headers])
-    |> parse_response_body
-    |> get_access_token
+    Scrolls.log([event: "api.auth.request", url: domain_url], fn() ->
+      domain_url
+      |> HTTPotion.get([headers: headers])
+      |> parse_response_body
+      |> get_access_token
+    end)
   end
 
   defp parse_response_body(%Response{status_code: 200, body: body}), do: JSON.parse(body)
