@@ -12,14 +12,14 @@ defmodule FileTest do
     {:ok, body} = File.read("test/fixtures/file.html")
     with_mock HTTPotion, [get: fn(_, _) -> %HTTPotion.Response{status_code: 200, body: body} end] do
       assert %{status: 200, headers: _, body: ^body} = Dropbox.get("/test/path.html", "12ab")
-      assert called HTTPotion.get(file_url("/test/path.html"), [headers: headers("12ab")])
+      assert called HTTPotion.get(file_url("/test/path.html"), [headers: headers("12ab"), timeout: 20000])
     end
   end
 
   test "GET file failed" do
     with_mock HTTPotion, [get: fn(_, _) -> %HTTPotion.Response{status_code: 404} end] do
       assert %{status: 404, headers: _, body: nil} = Dropbox.get("/test/path.html", "12ab")
-      assert called HTTPotion.get(file_url("/test/path.html"), [headers: headers("12ab")])
+      assert called HTTPotion.get(file_url("/test/path.html"), [headers: headers("12ab"), timeout: 20000])
     end
   end
 

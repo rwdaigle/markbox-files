@@ -15,7 +15,7 @@ defmodule MarkboxFiles.FileControllerTest do
         conn = get conn, "http://ryandaigle.com/index.html"
         assert conn.status == 200
         assert conn.resp_body == file_body
-        assert called HTTPotion.get("https://api-content.dropbox.com/1/files/auto/ryandaigle.com/index.html", [headers: headers("abc123")])
+        assert called HTTPotion.get("https://api-content.dropbox.com/1/files/auto/ryandaigle.com/index.html", [headers: headers("abc123"), timeout: 20000])
       end
     end
   end
@@ -28,7 +28,7 @@ defmodule MarkboxFiles.FileControllerTest do
         conn = get conn, "/index.html?domain=ryandaigle.com"
         assert conn.status == 200
         assert conn.resp_body == file_body
-        assert called HTTPotion.get("https://api-content.dropbox.com/1/files/auto/ryandaigle.com/index.html", [headers: headers("abc123")])
+        assert called HTTPotion.get("https://api-content.dropbox.com/1/files/auto/ryandaigle.com/index.html", [headers: headers("abc123"), timeout: 20000])
       end
     end
   end
@@ -41,7 +41,7 @@ defmodule MarkboxFiles.FileControllerTest do
         conn = get conn, "http://ryandaigle.com/"
         assert conn.status == 200
         assert conn.resp_body == file_body
-        assert called HTTPotion.get("https://api-content.dropbox.com/1/files/auto/ryandaigle.com/index.html", [headers: headers("abc123")])
+        assert called HTTPotion.get("https://api-content.dropbox.com/1/files/auto/ryandaigle.com/index.html", [headers: headers("abc123"), timeout: 20000])
       end
     end
   end

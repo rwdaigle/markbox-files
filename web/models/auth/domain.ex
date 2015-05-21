@@ -6,7 +6,7 @@ defmodule MarkboxFiles.Auth.Domain do
 
   def access_token(domain) do
     Metrics.request(%{url: url("/api/v1/domains/#{domain}/access_token.json")}, "api.auth.request", fn(%{url: auth_url}) ->
-      HTTPotion.get(auth_url, [headers: headers, timeout: 20000])
+      HTTPotion.get(auth_url, [headers: headers, timeout: timeout])
     end)
     |> parse_response_body
     |> get_access_token
@@ -33,6 +33,11 @@ defmodule MarkboxFiles.Auth.Domain do
 
   defp basic_auth do
     Base.encode64(Application.get_env(:markbox_auth, :api_user) <> ":" <> Application.get_env(:markbox_auth, :api_password))
+  end
+
+  defp timeout do
+    {int, _} = Application.get_env(:markbox_auth, :timeout) |> Integer.parse
+    int
   end
 
 end
