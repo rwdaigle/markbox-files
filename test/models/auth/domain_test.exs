@@ -8,7 +8,7 @@ defmodule MarkboxFiles.Auth.DomainTest do
     body = ~s({"access_token": "abc123"})
     with_mock HTTPotion, [get: fn(_url, _headers) -> %HTTPotion.Response{status_code: 200, body: body} end] do
       assert Domain.access_token("ryandaigle.com") == "abc123"
-      assert called HTTPotion.get(url, [headers: headers])
+      assert called HTTPotion.get(url, [headers: headers, timeout: 20000])
     end
   end
 
@@ -16,7 +16,7 @@ defmodule MarkboxFiles.Auth.DomainTest do
     body = ~s(Nasty stack trace)
     with_mock HTTPotion, [get: fn(_url, _headers) -> %HTTPotion.Response{status_code: 500, body: body} end] do
       assert Domain.access_token("ryandaigle.com") == nil
-      assert called HTTPotion.get(url, [headers: headers])
+      assert called HTTPotion.get(url, [headers: headers, timeout: 20000])
     end
   end
 

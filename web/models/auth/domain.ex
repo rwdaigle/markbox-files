@@ -2,10 +2,12 @@ defmodule MarkboxFiles.Auth.Domain do
 
   alias HTTPotion.Response
   alias Poison.Parser, as: JSON
-  alias MarkboxFiles.Scrolls
+  alias MarkboxFiles.Metrics
 
   def access_token(domain) do
-    Scrolls.log(%{event: "api.auth.request", url: url("/api/v1/domains/#{domain}/access_token.json")}, fn(%{url: auth_url}) ->
+    %{url: url("/api/v1/domains/#{domain}/access_token.json")}
+    |> Metrics.count("api.auth.request")
+    |> Metrics.measure("api.auth.request.service", fn(%{url: auth_url}) ->
       auth_url
       |> HTTPotion.get([headers: headers, timeout: 20000])
       |> parse_response_body
