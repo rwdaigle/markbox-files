@@ -27,13 +27,10 @@ defmodule MarkboxFiles.Dropbox.File do
   """
   def get(path, nil), do: %{status: 500, headers: [], body: "Access token for this domain could not be retrieved"}
   def get(path, access_token) do
-    %{url: file_url(path)}
-    |> Metrics.count("api.dropbox.request")
-    |> Metrics.measure("api.dropbox.request.service", fn(%{url: dropbox_url}) ->
-      dropbox_url      
-      |> HTTPotion.get([headers: headers(access_token)])
-      |> parse_response
+    Metrics.request(%{url: file_url(path)}, "api.dropbox.request", fn(%{url: dropbox_url}) ->
+      HTTPotion.get(dropbox_url, [headers: headers(access_token)])
     end)
+    |> parse_response
   end
 
   defp parse_response(%Response{status_code: status, body: body, headers: headers}) do
