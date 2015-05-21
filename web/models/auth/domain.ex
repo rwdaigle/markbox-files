@@ -5,7 +5,7 @@ defmodule MarkboxFiles.Auth.Domain do
   alias MarkboxFiles.Metrics
 
   def access_token(domain) do
-    Metrics.request(%{url: url("/api/v1/domains/#{domain}/access_token.json")}, "api.auth.request", fn(%{url: auth_url}) ->
+    Metrics.request(%{url: url("/api/v1/domains/#{domain}/access_token.json")}, "api.auth", fn(%{url: auth_url}) ->
       HTTPotion.get(auth_url, [headers: headers, timeout: timeout])
     end)
     |> parse_response_body

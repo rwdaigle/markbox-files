@@ -5,10 +5,19 @@ defmodule MarkboxFiles.Metrics do
   def request(params, metric, fun) do
     {metrics, response} =
       params
-      |> count(metric)
-      |> measure("#{metric}.service", fun)
+      |> count("#{metric}.request")
+      |> measure("#{metric}.request.service", fun)
 
-    metrics |> Map.put("response_status", response.status_code) |> log
+    response_bytes =
+      (response.headers[:"Content-Length"] || "0")
+      |> Integer.parse
+      |> elem(0)
+    
+    metrics
+    |> Map.put("response_status", response.status_code)
+    |> sample("#{metric}.response.size", "#{response_bytes / 1024}kb")
+    |> log
+
     response
   end
 
@@ -29,11 +38,16 @@ defmodule MarkboxFiles.Metrics do
     Map.put(params, "count##{metric}", num)
   end
 
+  def sample(metric, value), do: sample(Map.new, metric, value)
+  def sample(params, metric, value) do
+    Map.put(params, "sample##{metric}", value)
+  end
+
   def log(params) do
     params
     |> Enum.map(fn {k, v} -> "#{to_string(k)}=#{to_string(v)}" end)
     |> Enum.reduce("", fn(e, acc) -> "#{acc}#{e} " end)
-    |> Logger.info #IO.puts
+    |> IO.puts #Logger.info #IO.puts
     params
   end
 end
