@@ -12,7 +12,7 @@ defmodule MarkboxFiles.Metrics do
       (response.headers[:"Content-Length"] || "0")
       |> Integer.parse
       |> elem(0)
-    
+
     metrics
     |> Map.put("response_status", response.status_code)
     |> sample("#{metric}.response.size", "#{response_bytes / 1024}kb")
