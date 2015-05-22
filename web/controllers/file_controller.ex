@@ -15,7 +15,8 @@ defmodule MarkboxFiles.FileController do
 
     conn
     |> set_headers(file)
-    |> send_file(file)    
+    |> send_file(file)
+
   end
 
   defp get_dropbox_file_path(conn, params), do: "/#{domain(conn, params)}#{path(conn)}"
@@ -23,7 +24,7 @@ defmodule MarkboxFiles.FileController do
   defp set_headers(conn, %{headers: headers}) do
     headers
     |> Keyword.take(transferrable_headers)
-    |> Keyword.put(:"Cache-Control", "public, max-age=#{max_age}")
+    |> Keyword.put(:"cache-control", "public, max-age=#{max_age}")
     |> Enum.reduce(conn, fn({h, v}, c) -> put_resp_header(c, to_string(h), v) end)
   end
 
