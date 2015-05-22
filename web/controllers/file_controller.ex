@@ -3,11 +3,10 @@ defmodule MarkboxFiles.FileController do
   use MarkboxFiles.Web, :controller
   alias MarkboxFiles.Dropbox.File, as: Dropbox
   alias MarkboxFiles.Auth.Domain
-  alias MarkboxFiles.Metrics
 
   plug :action
 
-  def show(conn, params) do
+  def proxy(conn, params) do
     file =
       conn
       |> get_dropbox_file_path(params)
