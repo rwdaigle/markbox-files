@@ -15,14 +15,20 @@ defmodule MarkboxFiles.Metrics do
 
     metrics
     |> Map.put("response_status", response.status_code)
-    |> sample("#{metric}.response.size", "#{response_bytes / 1024}kb")
+    |> measure("#{metric}.response.size", "#{response_bytes / 1024}kb")
     |> log
 
     response
   end
 
-  def measure(metric, fun), do: Map.new |> measure(metric, fun)
-  def measure(params, metric, fun) do
+  def measure(metric, value) when is_bitstring(value), do: Map.new |> measure(metric, value)
+  def measure(metric, fun) when is_function(fun), do: Map.new |> measure(metric, fun)
+
+  def measure(params, metric, value) when is_bitstring(value) do
+    Map.put(params, "measure##{metric}", value)
+  end
+
+  def measure(params, metric, fun) when is_function(fun) do
     {service_us, value} = cond do
       is_function(fun, 0) -> :timer.tc(fun)
       is_function(fun, 1) -> :timer.tc(fun, [params])
