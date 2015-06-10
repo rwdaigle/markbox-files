@@ -1,10 +1,12 @@
 defmodule MarkboxFiles.Metrics do
 
   import Logger
+  import Metrix
 
-  def request(params, metric, fun) do
-    {metrics, response} =
-      params
+  def request(metadata, metric, fun) do
+
+    response =
+      metadata
       |> count("#{metric}.request")
       |> measure("#{metric}.request.service", fun)
 
@@ -13,47 +15,10 @@ defmodule MarkboxFiles.Metrics do
       |> Integer.parse
       |> elem(0)
 
-    metrics
+    metadata
     |> Map.put("response_status", response.status_code)
-    |> measure("#{metric}.response.size", "#{response_bytes / 1024}kb")
-    |> log
+    |> sample("#{metric}.response.size", "#{response_bytes / 1024}kb")
 
     response
-  end
-
-  def measure(metric, value) when is_bitstring(value), do: Map.new |> measure(metric, value)
-  def measure(metric, fun) when is_function(fun), do: Map.new |> measure(metric, fun)
-
-  def measure(params, metric, value) when is_bitstring(value) do
-    Map.put(params, "measure##{metric}", value)
-  end
-
-  def measure(params, metric, fun) when is_function(fun) do
-    {service_us, value} = cond do
-      is_function(fun, 0) -> :timer.tc(fun)
-      is_function(fun, 1) -> :timer.tc(fun, [params])
-    end
-    log_params = params |> Map.put("measure##{metric}", "#{service_us / 1000}ms")
-    {log_params, value}
-  end
-
-  def count(metric), do: count(metric, 1)
-  def count(params, metric) when is_map(params), do: count(params, metric, 1)
-  def count(metric, num) when is_number(num), do: count(Map.new, metric, num)
-  def count(params, metric, num) when is_map(params) and is_number(num) do
-    Map.put(params, "count##{metric}", num)
-  end
-
-  def sample(metric, value), do: sample(Map.new, metric, value)
-  def sample(params, metric, value) do
-    Map.put(params, "sample##{metric}", value)
-  end
-
-  def log(params) do
-    params
-    |> Enum.map(fn {k, v} -> "#{to_string(k)}=#{to_string(v)}" end)
-    |> Enum.reduce("", fn(e, acc) -> "#{acc}#{e} " end)
-    |> IO.puts #Logger.info #IO.puts
-    params
   end
 end

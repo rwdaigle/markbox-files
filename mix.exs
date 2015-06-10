@@ -17,7 +17,7 @@ defmodule MarkboxFiles.Mixfile do
   # Type `mix help compile.app` for more information
   def application do
     [mod: {MarkboxFiles, []},
-     applications: [:phoenix, :cowboy, :logger, :httpotion]]
+     applications: [:phoenix, :cowboy, :logger, :httpotion, :metrix]]
   end
 
   # Specifies which paths to compile per environment
@@ -38,7 +38,8 @@ defmodule MarkboxFiles.Mixfile do
       {:httpotion, "~> 2.0.0"},
       {:poison, "~> 1.4.0"},
       {:mock, "~> 0.1.0"},
-      {:ex_doc, github: "elixir-lang/ex_doc"}
+      {:ex_doc, github: "elixir-lang/ex_doc"},
+      {:metrix, github: "rwdaigle/metrix"}
     ]
   end
 end
