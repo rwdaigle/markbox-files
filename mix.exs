@@ -39,7 +39,7 @@ defmodule MarkboxFiles.Mixfile do
       {:poison, "~> 1.4.0"},
       {:mock, "~> 0.1.0"},
       {:ex_doc, github: "elixir-lang/ex_doc"},
-      {:metrix, github: "rwdaigle/metrix"}
+      {:metrix, "~> 0.1.0"}
     ]
   end
 end
