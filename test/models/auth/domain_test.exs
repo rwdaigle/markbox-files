@@ -24,9 +24,9 @@ defmodule MarkboxFiles.Auth.DomainTest do
 
   defp headers do
     [
-      "User-Agent": "markbox-files",
-      "Content-Type": "application/json",
-      "Authorization": "Basic #{auth_header}"
+      "user-agent": "markbox-files",
+      "content-type": "application/json",
+      "authorization": "Basic #{auth_header}"
     ]
   end
 

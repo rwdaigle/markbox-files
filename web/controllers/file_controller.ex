@@ -27,7 +27,7 @@ defmodule MarkboxFiles.FileController do
     |> Enum.reduce(conn, fn({h, v}, c) -> put_resp_header(c, to_string(h), v) end)
   end
 
-  defp transferrable_headers, do: [:"Content-Type", :etag]
+  defp transferrable_headers, do: [:"content-type", :etag]
 
   defp send_file(conn, %{body: body, status: status}) do
     send_resp(conn, status, body)
