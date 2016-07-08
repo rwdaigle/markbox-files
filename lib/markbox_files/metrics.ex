@@ -1,6 +1,5 @@
 defmodule MarkboxFiles.Metrics do
 
-  import Logger
   import Metrix
 
   def request(metadata, metric, fun) do

@@ -4,8 +4,6 @@ defmodule MarkboxFiles.FileController do
   alias MarkboxFiles.Dropbox.File, as: Dropbox
   alias MarkboxFiles.Auth.Domain
 
-  plug :action
-
   def proxy(conn, params) do
     file =
       conn

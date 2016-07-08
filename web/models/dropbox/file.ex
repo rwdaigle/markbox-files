@@ -25,7 +25,7 @@ defmodule MarkboxFiles.Dropbox.File do
       iex> status
       401
   """
-  def get(path, nil), do: %{status: 500, headers: [], body: "Access token for this domain could not be retrieved"}
+  def get(_path, nil), do: %{status: 500, headers: [], body: "Access token for this domain could not be retrieved"}
   def get(path, access_token) do
     Metrics.request(%{url: @dropbox_file_url, path: path}, "api.dropbox", fn(%{url: dropbox_url}) ->
       HTTPotion.post(dropbox_url, [headers: headers(path, access_token), timeout: timeout])
