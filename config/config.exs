@@ -26,8 +26,8 @@ config :markbox_files, MarkboxFiles.Endpoint, secret_key_base: System.get_env("A
 config :default, domain: System.get_env("APP_DEFAULT_DOMAIN") || "ryandaigle.com"
 config :default, domain_aliases: ["localhost"]
 
-config :dropbox, file_host: System.get_env("DROPBOX_FILE_HOST") || "https://api-content.dropbox.com"
-config :dropbox, file_base: System.get_env("DROPBOX_FILE_BASE") || "/1/files/auto"
+config :dropbox, file_host: System.get_env("DROPBOX_FILE_HOST") || "https://content.dropboxapi.com"
+config :dropbox, file_base: System.get_env("DROPBOX_FILE_BASE") || "/2/files/download"
 config :dropbox, file_timeout: System.get_env("DROPBOX_FILE_TIMEOUT") || "20000"
 
 config :markbox_auth, access_token: System.get_env("MARKBOX_AUTH_ACCESS_TOKEN") || "access-token"

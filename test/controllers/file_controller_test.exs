@@ -9,38 +9,42 @@ defmodule MarkboxFiles.FileControllerTest do
 
   test "GET /index.html" do
     {:ok, file_body} = File.read("test/fixtures/file.html")
-    with_mock HTTPotion, [get: fn("https://api-content.dropbox.com/1/files/auto/ryandaigle.com/index.html", _) ->
+    with_mock HTTPotion, [post: fn("https://content.dropboxapi.com/2/files/download", _) ->
         %HTTPotion.Response{status_code: 200, body: file_body} end] do
       conn = get conn, "http://ryandaigle.com/index.html"
       assert conn.status == 200
       assert conn.resp_body == file_body
-      assert called HTTPotion.get("https://api-content.dropbox.com/1/files/auto/ryandaigle.com/index.html", [headers: headers, timeout: 20000])
+      assert called HTTPotion.post("https://content.dropboxapi.com/2/files/download", [headers: headers("/ryandaigle.com/index.html"), timeout: 20000])
     end
   end
 
   test "GET /index.html with domain parameter" do
     {:ok, file_body} = File.read("test/fixtures/file.html")
-    with_mock HTTPotion, [get: fn("https://api-content.dropbox.com/1/files/auto/ryandaigle.com/index.html", _) ->
+    with_mock HTTPotion, [post: fn("https://content.dropboxapi.com/2/files/download", _) ->
         %HTTPotion.Response{status_code: 200, body: file_body} end] do
       conn = get conn, "/index.html?domain=ryandaigle.com"
       assert conn.status == 200
       assert conn.resp_body == file_body
-      assert called HTTPotion.get("https://api-content.dropbox.com/1/files/auto/ryandaigle.com/index.html", [headers: headers, timeout: 20000])
+      assert called HTTPotion.post("https://content.dropboxapi.com/2/files/download", [headers: headers("/ryandaigle.com/index.html"), timeout: 20000])
     end
   end
 
   test "GET /" do
     {:ok, file_body} = File.read("test/fixtures/file.html")
-    with_mock HTTPotion, [get: fn("https://api-content.dropbox.com/1/files/auto/ryandaigle.com/index.html", _) ->
+    with_mock HTTPotion, [post: fn("https://content.dropboxapi.com/2/files/download", _) ->
         %HTTPotion.Response{status_code: 200, body: file_body} end] do
       conn = get conn, "http://ryandaigle.com/"
       assert conn.status == 200
       assert conn.resp_body == file_body
-      assert called HTTPotion.get("https://api-content.dropbox.com/1/files/auto/ryandaigle.com/index.html", [headers: headers, timeout: 20000])
+      assert called HTTPotion.post("https://content.dropboxapi.com/2/files/download", [headers: headers("/ryandaigle.com/index.html"), timeout: 20000])
     end
   end
 
-  defp headers do
-    ["User-Agent": "dropbox_delta.ex", "Authorization": "Bearer access-token"]
+  defp headers(path) do
+    [
+      "User-Agent": "markbox-files",
+      "Authorization": "Bearer access-token",
+      "Dropbox-API-Arg": "{\"path\": \"#{path}\"}"
+    ]
   end
 end

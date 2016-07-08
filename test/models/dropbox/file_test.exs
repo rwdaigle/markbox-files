@@ -10,24 +10,28 @@ defmodule FileTest do
 
   test "GET file" do
     {:ok, body} = File.read("test/fixtures/file.html")
-    with_mock HTTPotion, [get: fn(_, _) -> %HTTPotion.Response{status_code: 200, body: body} end] do
+    with_mock HTTPotion, [post: fn(_, _) -> %HTTPotion.Response{status_code: 200, body: body} end] do
       assert %{status: 200, headers: _, body: ^body} = Dropbox.get("/test/path.html", "12ab")
-      assert called HTTPotion.get(file_url("/test/path.html"), [headers: headers("12ab"), timeout: 20000])
+      assert called HTTPotion.post(file_url, [headers: headers("/test/path.html", "12ab"), timeout: 20000])
     end
   end
 
   test "GET file failed" do
-    with_mock HTTPotion, [get: fn(_, _) -> %HTTPotion.Response{status_code: 404} end] do
-      assert %{status: 404, headers: _, body: nil} = Dropbox.get("/test/path.html", "12ab")
-      assert called HTTPotion.get(file_url("/test/path.html"), [headers: headers("12ab"), timeout: 20000])
+    with_mock HTTPotion, [post: fn(_, _) -> %HTTPotion.Response{status_code: 409} end] do
+      assert %{status: 409, headers: _, body: nil} = Dropbox.get("/test/path.html", "12ab")
+      assert called HTTPotion.post(file_url, [headers: headers("/test/path.html", "12ab"), timeout: 20000])
     end
   end
 
-  defp file_url(path) do
-    "https://api-content.dropbox.com/1/files/auto" <> path
+  defp file_url do
+    "https://content.dropboxapi.com/2/files/download"
   end
 
-  defp headers(access_token) do
-    ["User-Agent": "dropbox_delta.ex", "Authorization": "Bearer #{access_token}"]
+  defp headers(path, access_token) do
+    [
+      "User-Agent": "markbox-files",
+      "Authorization": "Bearer #{access_token}",
+      "Dropbox-API-Arg": "{\"path\": \"#{path}\"}"
+    ]
   end
 end

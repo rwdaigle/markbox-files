@@ -3,7 +3,7 @@ defmodule MarkboxFiles.Dropbox.File do
   alias MarkboxFiles.Metrics
   alias HTTPotion.Response
 
-  @dropbox_file_base Application.get_env(:dropbox, :file_host) <> Application.get_env(:dropbox, :file_base)
+  @dropbox_file_url Application.get_env(:dropbox, :file_host) <> Application.get_env(:dropbox, :file_base)
 
   @doc """
   Given a file path and the user's access token, get the contents of the file.
@@ -27,8 +27,8 @@ defmodule MarkboxFiles.Dropbox.File do
   """
   def get(path, nil), do: %{status: 500, headers: [], body: "Access token for this domain could not be retrieved"}
   def get(path, access_token) do
-    Metrics.request(%{url: file_url(path)}, "api.dropbox", fn(%{url: dropbox_url}) ->
-      HTTPotion.get(dropbox_url, [headers: headers(access_token), timeout: timeout])
+    Metrics.request(%{url: @dropbox_file_url, path: path}, "api.dropbox", fn(%{url: dropbox_url}) ->
+      HTTPotion.post(dropbox_url, [headers: headers(path, access_token), timeout: timeout])
     end)
     |> parse_response
   end
@@ -37,10 +37,12 @@ defmodule MarkboxFiles.Dropbox.File do
     %{status: status, headers: headers, body: body}
   end
 
-  defp file_url(path), do: @dropbox_file_base <> path
-
-  defp headers(access_token) do
-    ["User-Agent": "dropbox_delta.ex", "Authorization": "Bearer #{access_token}"]
+  defp headers(path, access_token) do
+    [
+      "User-Agent": "markbox-files",
+      "Authorization": "Bearer #{access_token}",
+      "Dropbox-API-Arg": "{\"path\": \"#{path}\"}"
+    ]
   end
 
   defp timeout do
